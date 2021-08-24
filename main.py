@@ -41,7 +41,7 @@ if inputUser == "2":
             print(Succses + hostNames + "      ...Ok")
             print("--"*50)
         else:
-            print(Error + hostNames + "       ..No Response")
+            print(Error + hostNames + "     /n  ..No Response")
 
 
 
