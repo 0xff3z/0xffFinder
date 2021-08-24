@@ -1,6 +1,4 @@
-
 import os
-
 
 Error = '\033[91m'
 Succses = '\033[92m'
@@ -41,6 +39,7 @@ if inputUser == "2":
         response = os.system(f"ping -c {PacketsNumber} " + hostNames)
         if response == 0:
             print(Succses + hostNames + "      ...Ok")
+            print("--"*50)
         else:
             print(Error + hostNames + "       ..No Response")
 
