@@ -30,7 +30,7 @@ if inputUser == "1":
 
 
 if inputUser == "2":
-    print("Locate Your File Domains : Example Doamins.txt")
+    print("Locate Your File Domains : Example Domains.txt")
     hostNames = open(input())
     print("Enter Number Of Packets")
     PacketsNumber = input()
