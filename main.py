@@ -22,7 +22,7 @@ if inputUser == "1":
     hostname = input()
     print("Enter Number Of Packets")
     PacketsNumber = input()
-    response = os.system(f"ping -n {PacketsNumber} " + hostname)
+    response = os.system(f"ping -c {PacketsNumber} " + hostname)
     if response == 0:
         print(Succses + hostname + "      ...Ok")
     else:
@@ -37,7 +37,7 @@ if inputUser == "2":
     for hostNames in hostNames:
 
 
-        response = os.system(f"ping -n {PacketsNumber} " + hostNames)
+        response = os.system(f"ping -c {PacketsNumber} " + hostNames)
         if response == 0:
             print(Succses + hostNames + "      ...Ok")
         else:
