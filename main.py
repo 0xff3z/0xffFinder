@@ -18,7 +18,7 @@ if inputUser == "":
 
 
 if inputUser == "1":
-    print("Enter Your Domain or ip")
+    print("Enter Your Host")
     hostname = input()
     print("Enter Number Of Packets")
     PacketsNumber = input()
@@ -34,6 +34,7 @@ if inputUser == "2":
     hostNames = open(input())
     print("Enter Number Of Packets")
     PacketsNumber = input()
+
     for hostNames in hostNames:
 
 
