@@ -9,7 +9,6 @@ import sys
 
 Error = '\033[91m'
 Succses = '\033[92m'
-FilePath = open("Domains.txt","r")
 Ports = [80,443,20,21,22,24,25,3306]
 
 def CheckStatus():
@@ -40,6 +39,14 @@ def CheckStatusOfDomains():
            status = requests.get(f"{NewHost}")
            StatusCode = status.status_code
            print(Succses + f"Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+           for sub in subdomains:
+               url = f"http://{sub}.{line}"
+               try:
+                   requests.get(url)
+                   print(Succses, "[+]Discovred Doamins:", url)
+               except:
+                   print(Error, "Not Found", url)
+
            for port in Ports:
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                socket.setdefaulttimeout(1)
@@ -50,6 +57,21 @@ def CheckStatusOfDomains():
                else:
                    print(Error, f"Port {port} is Closed")
                    s.close()
+
+file = open("subDomains.txt","r")
+contentInFile = file.read()
+subdomains = contentInFile.splitlines()
+def SubDomains():
+        for sub in subdomains:
+            url = f"http://{sub}.{Hostname}"
+            try:
+                requests.get(url)
+                print( Succses,"[+]Discovred Doamins:", url)
+            except:
+                print(Error,"Not Found",url)
+
+
+
 
 
 inputUser = input('''
@@ -66,6 +88,7 @@ if inputUser == "1":
     Hostname = input()
     try:
         CheckStatus()
+        SubDomains()
     except socket.gaierror:
         print(Error, "Enter Valid Domain")
     except requests.exceptions.InvalidURL:
