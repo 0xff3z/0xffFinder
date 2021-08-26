@@ -1,6 +1,5 @@
 import socket
 import requests
-from contextlib import closing
 
 
 
@@ -38,6 +37,9 @@ if inputUser == "1":
             if result == 0:
                 print("Port {} is open".format(port))
             s.close()
+            if result == 10035:
+                print(Error,f"Port {port} is Closed")
+
 
     except socket.gaierror:
         print(Error, "Enter Valid Domain")
