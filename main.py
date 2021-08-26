@@ -39,14 +39,6 @@ def CheckStatusOfDomains():
            status = requests.get(f"{NewHost}")
            StatusCode = status.status_code
            print(Succses + f"Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
-           for sub in subdomains:
-               url = f"http://{sub}.{line}"
-               try:
-                   requests.head(url)
-                   print(Succses, "[+]Discovred Doamins:", url)
-               except:
-                   print(Error, "Not Found", url)
-
            for port in Ports:
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                socket.setdefaulttimeout(0.2)
@@ -57,6 +49,16 @@ def CheckStatusOfDomains():
                else:
                    print(Error, f"Port {port} is Closed")
                    s.close()
+
+           for sub in subdomains:
+               url = f"http://{sub}.{line}"
+               try:
+                   requests.head(url)
+                   print(Succses, "[+]Discovred Doamins:", url)
+               except:
+                   print(Error, "Not Found", url)
+
+
 
 file = open("subDomains.txt","r")
 contentInFile = file.read()
