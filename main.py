@@ -1,5 +1,7 @@
 import socket
 import requests
+from contextlib import closing
+
 
 
 
@@ -7,7 +9,7 @@ import requests
 Error = '\033[91m'
 Succses = '\033[92m'
 
-Ports = [19,20,21,22,23,24,25,80,443]
+Ports = [80,443,20,21,22,24,25,3306]
 
 print("Select One")
 inputUser = input('''
@@ -29,6 +31,14 @@ if inputUser == "1":
         status = requests.get(f"{NewHost}")
         StatusCode = status.status_code
         print(Succses + f"Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+        for port in Ports:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            result = s.connect_ex((Hostname, port))
+            if result == 0:
+                print("Port {} is open".format(port))
+            s.close()
+
     except socket.gaierror:
         print(Error, "Enter Valid Domain")
     except requests.exceptions.InvalidURL:
