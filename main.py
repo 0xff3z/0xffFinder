@@ -37,8 +37,9 @@ if inputUser == "1":
             if result == 0:
                 print("Port {} is open".format(port))
             s.close()
-            if result == 10035:
+            if result != 0:
                 print(Error,f"Port {port} is Closed")
+                
 
 
     except socket.gaierror:
