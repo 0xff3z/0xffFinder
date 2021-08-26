@@ -14,7 +14,7 @@ Ports = [80,443,20,21,22,24,25,3306]
 def CheckStatus():
     ip = socket.gethostbyname(f"{Hostname}")
     NewHost = (f"http://{Hostname}")
-    status = requests.head(f"{NewHost}")
+    status = requests.get(f"{NewHost}")
     StatusCode = status.status_code
     print(Succses + f"Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
     for port in Ports:
