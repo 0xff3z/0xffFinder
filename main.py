@@ -36,7 +36,7 @@ def CheckStatusOfDomains():
         for line in Lines:
            ip = socket.gethostbyname(f"{line}")
            NewHost = (f"http://{line}")
-           status = requests.head(f"{NewHost}")
+           status = requests.get(f"{NewHost}")
            StatusCode = status.status_code
            print(Succses + f"Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
            for sub in subdomains:
