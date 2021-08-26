@@ -1,1 +1,2 @@
 requests==2.26.0
+sockets==1.0.0
