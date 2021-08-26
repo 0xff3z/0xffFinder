@@ -14,12 +14,12 @@ Ports = [80,443,20,21,22,24,25,3306]
 def CheckStatus():
     ip = socket.gethostbyname(f"{Hostname}")
     NewHost = (f"http://{Hostname}")
-    status = requests.get(f"{NewHost}")
+    status = requests.head(f"{NewHost}")
     StatusCode = status.status_code
     print(Succses + f"Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
     for port in Ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        socket.setdefaulttimeout(1)
+        socket.setdefaulttimeout(0.2)
         result = s.connect_ex((Hostname, port))
         if result == 0:
             Services = socket.getservbyport(port)
@@ -36,20 +36,20 @@ def CheckStatusOfDomains():
         for line in Lines:
            ip = socket.gethostbyname(f"{line}")
            NewHost = (f"http://{line}")
-           status = requests.get(f"{NewHost}")
+           status = requests.head(f"{NewHost}")
            StatusCode = status.status_code
            print(Succses + f"Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
            for sub in subdomains:
                url = f"http://{sub}.{line}"
                try:
-                   requests.get(url)
+                   requests.head(url)
                    print(Succses, "[+]Discovred Doamins:", url)
                except:
                    print(Error, "Not Found", url)
 
            for port in Ports:
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-               socket.setdefaulttimeout(1)
+               socket.setdefaulttimeout(0.2)
                result = s.connect_ex((line, port))
                if result == 0:
                    Services = socket.getservbyport(port)
@@ -65,7 +65,7 @@ def SubDomains():
         for sub in subdomains:
             url = f"http://{sub}.{Hostname}"
             try:
-                requests.get(url)
+                requests.head(url)
                 print( Succses,"[+]Discovred Doamins:", url)
             except:
                 print(Error,"Not Found",url)
