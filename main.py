@@ -1,7 +1,15 @@
 import socket
 import requests
+from contextlib import closing
+
+
+
+
+
 Error = '\033[91m'
 Succses = '\033[92m'
+
+Ports = [19,20,21,22,23,24,25,80,443]
 
 print("Select One")
 inputUser = input('''
@@ -12,43 +20,42 @@ inputUser = input('''
 if inputUser == "":
     print("Error Select One")
 
+
 if inputUser == "1":
     print("Enter Your Host")
-    hostname = input()
-    ip = socket.gethostbyname(f"{hostname}")
-    newhost = (f"http://{hostname}")
-    status = requests.get(f"{newhost}")
-    statuscode = status.status_code
-    if statuscode == 200:
-        socket.gethostbyname(f"{hostname}")
-        requests.get(f"{newhost}")
-        print(Succses, f"Domain: {newhost}", " == ", f"The ip is : {ip}" " == ", f"Status ..Ok {statuscode}")
-    else:
-        print(Error, f"Domain: {ip}", " == ", f"The ip is : {ip}" " == ", f"Status ..Error {statuscode}")
+    Hostname = input()
 
-if inputUser == "2":
-    filepath = "Domains.txt"
-    certpath = 'cert.pem'
-    with open(filepath) as file:
-        text = file.read()
-        text = text.splitlines()
+    try:
+        ip = socket.gethostbyname(f"{Hostname}")
+        NewHost = (f"http://{Hostname}")
+        status = requests.get(f"{NewHost}")
+        StatusCode = status.status_code
+        print(Succses + f"Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+    except socket.gaierror:
+        print(Error, "Enter Valid Domain")
+    except requests.exceptions.InvalidURL:
+        print("Enter Valid Domain")
 
-        for i in text:
-            prograss = i
-            ip = i.split()[0]
-            ip = socket.gethostbyname(f"{ip}")
-            newhost = (f"http://{ip}")
-            headers = {
-                'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
-            }
-            session = requests.Session()
-            status = requests.get(f"{newhost}", headers=headers)
-            statuscode = status.status_code
-            if statuscode == 200:
-                session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'})
-                socket.gethostbyname(f"{ip}")
-                requests.get(f"{newhost}", headers=headers)
-                print(Succses, "Domain:", f"{prograss}", f" And The ip is : {ip}" " == ", f"Status ..Ok {statuscode}")
-            else:
-                print(Error, f"Domain: {prograss}",  f" And The ip is : {ip}" " == ", f"Status ..Error {statuscode}")
-                file.close()
+
+
+
+
+
+
+# if inputUser == "2":
+#     print("Locate Your File Domains : Example Domains.txt")
+#     hostNames = open(input())
+#
+#     for hostNames in hostNames:
+#         ip = socket.gethostbyname(f"{hostNames}")
+#         newhost = (f"http://{hostNames}")
+#         status = requests.get(f"{newhost}")
+#         statuscode = status.status_code
+#         if statuscode == 200:
+#             print(Succses + ip, " Status ", statuscode)
+#         else:
+#             print(statuscode + "  Not Found")
+
+
+
+
