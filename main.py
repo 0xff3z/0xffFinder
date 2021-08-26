@@ -54,7 +54,7 @@ def CheckStatusOfDomains():
 
 inputUser = input('''
 1 - One Domain
-2 - Comming Soon Multiple Domains
+2 - Multiple Domains
 ''')
 
 if inputUser == "":
