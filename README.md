@@ -1,4 +1,5 @@
 # 0xffFinder
+Check if Host online And Checking Ports 
 
 #Usage
 
