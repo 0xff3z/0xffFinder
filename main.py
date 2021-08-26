@@ -75,7 +75,6 @@ if inputUser == "1":
 
 
 if inputUser == "2":
-    print("Locate Your File Domains : Example Domains.txt")
     CheckStatusOfDomains()
 
 
