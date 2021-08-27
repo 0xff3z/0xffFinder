@@ -53,10 +53,10 @@ def CheckStatusOfDomains():
            for sub in subdomains:
                url = f"http://{sub}.{line}"
                try:
-                   requests.head(url)
+                   requests.head(url,timeout=0.2)
                    print(Succses, "[+]Discovred Doamins:", url)
                except:
-                   print(Error, "Not Found", url)
+                   ''
 
 
 
@@ -67,10 +67,10 @@ def SubDomains():
         for sub in subdomains:
             url = f"http://{sub}.{Hostname}"
             try:
-                requests.head(url)
+                requests.head(url,timeout=0.2)
                 print( Succses,"[+]Discovred Doamins:", url)
             except:
-                print(Error,"Not Found",url)
+                ''
 
 
 
