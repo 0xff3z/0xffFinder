@@ -2,7 +2,7 @@ import socket
 import requests
 import sys
 import re
-from Modules.resolver import dns
+from Modules.dns import resolver
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -99,7 +99,7 @@ def CheckEmail():
 
 
 def CheckMXRec(Domain):
-    ResultMx = dns.resolver.resolve(Domain,"MX")
+    ResultMx = resolver.resolve(Domain,"MX")
     for data in ResultMx:
         try:
          print( Succses, "[+]Discovred MX Record",data)
@@ -107,7 +107,7 @@ def CheckMXRec(Domain):
          ''
 
 def CheckARec(Domain):
-    ResultA = dns.resolver.resolve(Domain,"A")
+    ResultA = resolver.resolve(Domain,"A")
     for data in ResultA:
         try:
             print(Succses," [+]Discovred A Record",data)
@@ -116,7 +116,7 @@ def CheckARec(Domain):
 
 
 def CheckNSRec(Domain):
-    ResultCNAME = dns.resolver.resolve(Domain,"NS")
+    ResultCNAME = resolver.resolve(Domain,"NS")
     for data in ResultCNAME:
         try:
             print(Succses," [+]Discovred NS Record",data)
@@ -124,7 +124,7 @@ def CheckNSRec(Domain):
             ''
 
 def CheckAAAARec(Domain):
-    ResultAAAA = dns.resolver.resolve(Domain,"AAAA")
+    ResultAAAA = resolver.resolve(Domain,"AAAA")
     for data in ResultAAAA:
         try:
             print(Succses," [+]Discovred AAAA Record",data)
@@ -132,7 +132,7 @@ def CheckAAAARec(Domain):
             ''
 
 def CheckTXTRec(Domain):
-    ResultTXT = dns.resolver.resolve(Domain,"TXT")
+    ResultTXT = resolver.resolve(Domain,"TXT")
     for data in ResultTXT:
         try:
             print(Succses," [+]Discovred TXT Record",data)
@@ -140,7 +140,7 @@ def CheckTXTRec(Domain):
             ''
 
 def CheckSRVRec(Domain):
-    ResultSRV = dns.resolver.resolve(Domain,"SRV")
+    ResultSRV = resolver.resolve(Domain,"SRV")
     for data in ResultSRV:
         try:
             print(Succses," [+]Discovred SRV Record",data)
@@ -148,7 +148,7 @@ def CheckSRVRec(Domain):
             ''
 
 def CheckCNAMERec(Domain):
-    ResultCNAME= dns.resolver.resolve(Domain,"CNAME")
+    ResultCNAME= resolver.resolve(Domain,"CNAME")
     for data in ResultCNAME:
         try:
             print(Succses," [+]Discovred CNAME Record",data)
@@ -156,7 +156,7 @@ def CheckCNAMERec(Domain):
             ''
 
 def CheckSOARec(Domain):
-    ResultSOA= dns.resolver.resolve(Domain,"SOA")
+    ResultSOA= resolver.resolve(Domain,"SOA")
     for data in ResultSOA:
         try:
             print(Succses," [+]Discovred SOA Record",data)
@@ -164,7 +164,7 @@ def CheckSOARec(Domain):
             ''
 
 def CheckPTRRec(Domain):
-    ResultPTR= dns.resolver.resolve(Domain,"PTR")
+    ResultPTR= resolver.resolve(Domain,"PTR")
     for data in ResultPTR:
         try:
             print(Succses," [+]Discovred PTR Record",data)
