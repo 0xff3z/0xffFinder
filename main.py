@@ -2,10 +2,7 @@ import socket
 import requests
 import sys
 import re
-import dns.query
-import dns.zone
-import dns.resolver
-from dns.exception import DNSException
+from Modules.resolver import dns
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -60,6 +57,11 @@ def CheckStatusOfDomains():
            CheckNSRec(line)
            CheckAAAARec(line)
            CheckARec(line)
+           CheckTXTRec(line)
+           CheckSRVRec(line)
+           CheckCNAMERec(line)
+           CheckSOARec(line)
+           CheckPTRRec(line)
            for sub in subdomains:
                url = f"http://{sub}.{line}"
                try:
@@ -97,37 +99,80 @@ def CheckEmail():
 
 
 def CheckMXRec(Domain):
-    ResultMx = dns.resolver.query(Domain,"MX")
+    ResultMx = dns.resolver.resolve(Domain,"MX")
     for data in ResultMx:
         try:
          print( Succses, "[+]Discovred MX Record",data)
-        except DNSException as e:
-         print(e)
+        except:
+         ''
 
 def CheckARec(Domain):
-    ResultA = dns.resolver.query(Domain,"A")
+    ResultA = dns.resolver.resolve(Domain,"A")
     for data in ResultA:
         try:
             print(Succses," [+]Discovred A Record",data)
-        except DNSException as e:
-            print(e)
+        except:
+            ''
 
 
 def CheckNSRec(Domain):
-    ResultCNAME = dns.resolver.query(Domain,"NS")
+    ResultCNAME = dns.resolver.resolve(Domain,"NS")
     for data in ResultCNAME:
         try:
             print(Succses," [+]Discovred NS Record",data)
-        except DNSException as e:
-            print(e)
+        except:
+            ''
 
 def CheckAAAARec(Domain):
-    ResultAAAA = dns.resolver.query(Domain,"AAAA")
+    ResultAAAA = dns.resolver.resolve(Domain,"AAAA")
     for data in ResultAAAA:
         try:
             print(Succses," [+]Discovred AAAA Record",data)
-        except DNSException as e:
-            print(e)
+        except:
+            ''
+
+def CheckTXTRec(Domain):
+    ResultTXT = dns.resolver.resolve(Domain,"TXT")
+    for data in ResultTXT:
+        try:
+            print(Succses," [+]Discovred TXT Record",data)
+        except:
+            ''
+
+def CheckSRVRec(Domain):
+    ResultSRV = dns.resolver.resolve(Domain,"SRV")
+    for data in ResultSRV:
+        try:
+            print(Succses," [+]Discovred SRV Record",data)
+        except:
+            ''
+
+def CheckCNAMERec(Domain):
+    ResultCNAME= dns.resolver.resolve(Domain,"CNAME")
+    for data in ResultCNAME:
+        try:
+            print(Succses," [+]Discovred CNAME Record",data)
+        except:
+            ''
+
+def CheckSOARec(Domain):
+    ResultSOA= dns.resolver.resolve(Domain,"SOA")
+    for data in ResultSOA:
+        try:
+            print(Succses," [+]Discovred SOA Record",data)
+        except:
+            ''
+
+def CheckPTRRec(Domain):
+    ResultPTR= dns.resolver.resolve(Domain,"PTR")
+    for data in ResultPTR:
+        try:
+            print(Succses," [+]Discovred PTR Record",data)
+        except:
+            ''
+
+
+
 
 
 # def CheckZone(Domain):
@@ -148,6 +193,11 @@ def CheckDNSRec():
     CheckARec(Hostname)
     CheckNSRec(Hostname)
     CheckAAAARec(Hostname)
+    CheckTXTRec(Hostname)
+    CheckSRVRec(Hostname)
+    CheckCNAMERec(Hostname)
+    CheckSOARec(Hostname)
+    CheckPTRRec(Hostname)
     # CheckZone(Hostname)
 
 inputUser = input('''
