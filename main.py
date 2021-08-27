@@ -6,6 +6,8 @@ import dns
 import dns.resolver
 import dns.reversename
 
+import warnings
+warnings.filterwarnings(action='ignore')
 
 
 
