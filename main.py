@@ -1,6 +1,14 @@
 import socket
 import requests
 import sys
+import re
+import dns.query
+import dns.zone
+import dns.resolver
+from dns.exception import DNSException
+
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
 
 
 
@@ -9,7 +17,7 @@ import sys
 
 Error = '\033[91m'
 Succses = '\033[92m'
-Ports = [80,443,20,21,22,24,25,3306]
+Ports = [80,443,20,21,22,23,24,25,3306]
 
 def CheckStatus():
     ip = socket.gethostbyname(f"{Hostname}")
@@ -27,7 +35,6 @@ def CheckStatus():
         else:
                 print(Error, f"Port {port} is Closed")
                 s.close()
-
 
 def CheckStatusOfDomains():
     with open("Domains.txt","r") as File:
@@ -49,7 +56,10 @@ def CheckStatusOfDomains():
                else:
                    print(Error, f"Port {port} is Closed")
                    s.close()
-
+           CheckMXRec(line)
+           CheckNSRec(line)
+           CheckAAAARec(line)
+           CheckARec(line)
            for sub in subdomains:
                url = f"http://{sub}.{line}"
                try:
@@ -74,7 +84,71 @@ def SubDomains():
 
 
 
+def CheckEmail():
+    with open("emails.txt","r") as File:
+        Content = File.read()
+        Content = Content.splitlines()
+        for mails in Content:
+            if re.search(regex,f"{mails}{Hostname}"):
+                print(mails,Hostname,"Valid Email")
+            else:
+                print(Error,mails,"Invalid")
 
+
+
+def CheckMXRec(Domain):
+    ResultMx = dns.resolver.query(Domain,"MX")
+    for data in ResultMx:
+        try:
+         print( Succses, "[+]Discovred MX Record",data)
+        except DNSException as e:
+         print(e)
+
+def CheckARec(Domain):
+    ResultA = dns.resolver.query(Domain,"A")
+    for data in ResultA:
+        try:
+            print(Succses," [+]Discovred A Record",data)
+        except DNSException as e:
+            print(e)
+
+
+def CheckNSRec(Domain):
+    ResultCNAME = dns.resolver.query(Domain,"NS")
+    for data in ResultCNAME:
+        try:
+            print(Succses," [+]Discovred NS Record",data)
+        except DNSException as e:
+            print(e)
+
+def CheckAAAARec(Domain):
+    ResultAAAA = dns.resolver.query(Domain,"AAAA")
+    for data in ResultAAAA:
+        try:
+            print(Succses," [+]Discovred AAAA Record",data)
+        except DNSException as e:
+            print(e)
+
+
+# def CheckZone(Domain):
+#     ResultZone = dns.zone.from_xfr(dns.query.xfr(Domain))
+#     for data in ResultZone:
+#         try:
+#             print(Succses," [+]Discovred AAAA Record",data)
+#         except DNSException as e:
+#             print(e)
+#
+
+
+
+
+
+def CheckDNSRec():
+    CheckMXRec(Hostname)
+    CheckARec(Hostname)
+    CheckNSRec(Hostname)
+    CheckAAAARec(Hostname)
+    # CheckZone(Hostname)
 
 inputUser = input('''
 1 - One Domain
@@ -90,7 +164,10 @@ if inputUser == "1":
     Hostname = input()
     try:
         CheckStatus()
+        print("DNS Records")
+        CheckDNSRec()
         SubDomains()
+
     except socket.gaierror:
         print(Error, "Enter Valid Domain")
     except requests.exceptions.InvalidURL:
@@ -101,7 +178,5 @@ if inputUser == "1":
 
 if inputUser == "2":
     CheckStatusOfDomains()
-
-
 
 
