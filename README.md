@@ -4,7 +4,8 @@
 # 1 - Check Ports
 # 2 - Check ip
 # 3 - Check SubDomains
-# 4 - Support More Than Domain in List
+# 4 - Check DNS Records
+# 5- Support More Than Domain in List
 
 # Usage
 
