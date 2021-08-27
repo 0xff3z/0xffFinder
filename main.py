@@ -2,10 +2,11 @@ import socket
 import requests
 import sys
 import re
-from Modules.dns import resolver
+import dns
+from dns import resolver
+
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-
 
 
 
@@ -99,80 +100,104 @@ def CheckEmail():
 
 
 def CheckMXRec(Domain):
-    ResultMx = resolver.resolve(Domain,"MX")
+    ResultMx = dns.resolver.query(Domain,"MX")
     for data in ResultMx:
         try:
          print( Succses, "[+]Discovred MX Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-         ''
+            pass
+
+
 
 def CheckARec(Domain):
-    ResultA = resolver.resolve(Domain,"A")
+    ResultA = dns.resolve(Domain,"A")
     for data in ResultA:
         try:
             print(Succses," [+]Discovred A Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
+
+
+
 
 
 def CheckNSRec(Domain):
-    ResultCNAME = resolver.resolve(Domain,"NS")
+    ResultCNAME = resolver.query(Domain,"NS")
     for data in ResultCNAME:
         try:
             print(Succses," [+]Discovred NS Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
 
 def CheckAAAARec(Domain):
-    ResultAAAA = resolver.resolve(Domain,"AAAA")
+    ResultAAAA = resolver.query(Domain,"AAAA")
     for data in ResultAAAA:
         try:
             print(Succses," [+]Discovred AAAA Record",data)
-        except:
-            ''
+        except dns.resolver.NoAnswer:
+            pass
 
 def CheckTXTRec(Domain):
-    ResultTXT = resolver.resolve(Domain,"TXT")
+    ResultTXT = dns.resolve(Domain,"TXT")
     for data in ResultTXT:
         try:
             print(Succses," [+]Discovred TXT Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
 
 def CheckSRVRec(Domain):
-    ResultSRV = resolver.resolve(Domain,"SRV")
+    ResultSRV = dns.resolve(Domain,"SRV")
     for data in ResultSRV:
         try:
             print(Succses," [+]Discovred SRV Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
 
 def CheckCNAMERec(Domain):
-    ResultCNAME= resolver.resolve(Domain,"CNAME")
+    ResultCNAME= dns.resolve(Domain,"CNAME")
     for data in ResultCNAME:
         try:
             print(Succses," [+]Discovred CNAME Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
 
 def CheckSOARec(Domain):
-    ResultSOA= resolver.resolve(Domain,"SOA")
+    ResultSOA= dns.resolve(Domain,"SOA")
     for data in ResultSOA:
         try:
             print(Succses," [+]Discovred SOA Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
+            pass
+
 
 def CheckPTRRec(Domain):
-    ResultPTR= resolver.resolve(Domain,"PTR")
+    ResultPTR= dns.resolve(Domain,"PTR")
     for data in ResultPTR:
         try:
             print(Succses," [+]Discovred PTR Record",data)
+        except dns.resolver.NoAnswer:
+            pass
         except:
-            ''
-
-
-
+            pass
 
 
 # def CheckZone(Domain):
