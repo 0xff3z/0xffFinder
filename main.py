@@ -5,6 +5,9 @@ import re
 import dns
 import dns.resolver
 import dns.reversename
+from validate_email import validate_email
+
+
 
 import warnings
 warnings.filterwarnings(action='ignore')
@@ -40,7 +43,8 @@ def CheckStatus():
                 s.close()
 
 def CheckStatusOfDomains():
-    with open("Domains.txt","r") as File:
+    FileName = input("Locate Your Domains Lists")
+    with open(FileName,"r") as File:
         Lines = File.read()
         Lines = Lines.splitlines()
         for line in Lines:
@@ -92,15 +96,13 @@ def SubDomains():
 
 
 
-def CheckEmail():
+def CheckEmail(Domain):
     with open("emails.txt","r") as File:
         Content = File.read()
         Content = Content.splitlines()
         for mails in Content:
-            if re.search(regex,f"{mails}{Hostname}"):
-                print(mails,Hostname,"Valid Email")
-            else:
-                print(Error,mails,"Invalid")
+           isValid = validate_email(f'{mails}@{Domain}',smtp_timeout=10,  debug=False)
+        print(isValid)
 
 
 
@@ -217,8 +219,6 @@ def CheckPTRRec(Domain):
 
 
 
-
-
 def CheckDNSRec():
     CheckMXRec(Hostname)
     CheckARec(Hostname)
@@ -229,7 +229,7 @@ def CheckDNSRec():
     CheckCNAMERec(Hostname)
     CheckSOARec(Hostname)
     CheckPTRRec(Hostname)
-    # CheckZone(Hostname)
+    CheckEmail(Hostname)
 
 inputUser = input('''
 1 - One Domain
