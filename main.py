@@ -5,7 +5,6 @@ import re
 import dns
 import dns.resolver
 import dns.reversename
-from validate_email import validate_email
 
 
 
@@ -96,13 +95,13 @@ def SubDomains():
 
 
 
-def CheckEmail(Domain):
-    with open("emails.txt","r") as File:
-        Content = File.read()
-        Content = Content.splitlines()
-        for mails in Content:
-           isValid = validate_email(f'{mails}@{Domain}',smtp_timeout=10,  debug=False)
-        print(isValid)
+# def CheckEmail(Domain):
+#     with open("emails.txt","r") as File:
+#         Content = File.read()
+#         Content = Content.splitlines()
+#         for mails in Content:
+#            isValid = validate_email(f'{mails}@{Domain}',smtp_timeout=10,  debug=False)
+#         print(isValid)
 
 
 
@@ -229,7 +228,6 @@ def CheckDNSRec():
     CheckCNAMERec(Hostname)
     CheckSOARec(Hostname)
     CheckPTRRec(Hostname)
-    CheckEmail(Hostname)
 
 inputUser = input('''
 1 - One Domain
