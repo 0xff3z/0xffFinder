@@ -29,15 +29,17 @@ def CheckStatus():
     NewHost = (f"http://{Hostname}")
     status = requests.get(f"{NewHost}")
     StatusCode = status.status_code
-    print(Succses + f"Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+    print(Succses + f" Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
     for port in Ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket.setdefaulttimeout(0.2)
         result = s.connect_ex((Hostname, port))
         if result == 0:
             Services = socket.getservbyport(port)
-            print(f"Port {port} is Open",Services.format(port))
+            print("=" * 50)
+            print(f" Port {port} is Open",Services.format(port))
         else:
+                print("=" * 50)
                 print(Error, f"Port {port} is Closed")
                 s.close()
 
@@ -51,16 +53,18 @@ def CheckStatusOfDomains():
            NewHost = (f"http://{line}")
            status = requests.get(f"{NewHost}")
            StatusCode = status.status_code
-           print(Succses + f"Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+           print(Succses + f" Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
            for port in Ports:
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                socket.setdefaulttimeout(0.2)
                result = s.connect_ex((line, port))
                if result == 0:
                    Services = socket.getservbyport(port)
-                   print(f"Port {port} is Open", Services.format(port))
+                   print("=" * 50)
+                   print(Succses,f" Port {port} is Open", Services.format(port))
                else:
-                   print(Error, f"Port {port} is Closed")
+                   print("=" * 50)
+                   print(Error,f"Port {port} is Closed")
                    s.close()
            CheckMXRec(line)
            CheckNSRec(line)
@@ -75,6 +79,7 @@ def CheckStatusOfDomains():
                url = f"http://{sub}.{line}"
                try:
                    requests.head(url,timeout=0.2)
+                   print("="*50)
                    print(Succses, "[+]Discovred Doamins:", url)
                except:
                    ''
@@ -89,6 +94,7 @@ def SubDomains():
             url = f"http://{sub}.{Hostname}"
             try:
                 requests.head(url,timeout=0.2)
+                print("=" * 50)
                 print( Succses,"[+]Discovred Doamins:", url)
             except:
                 ''
@@ -109,6 +115,7 @@ def CheckMXRec(Domain):
     ResultMx = dns.resolver.query(Domain,"MX",raise_on_no_answer=False)
     for data in ResultMx:
         try:
+         print("="*50)
          print( Succses, "[+]Discovred MX Record",data)
         except dns.resolver.query.NoAnswer:
             pass
@@ -121,7 +128,8 @@ def CheckARec(Domain):
     ResultA = dns.resolver.query(Domain,"A",raise_on_no_answer=False)
     for data in ResultA:
         try:
-            print(Succses," [+]Discovred A Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred A Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -136,7 +144,8 @@ def CheckNSRec(Domain):
     ResultCNAME = dns.resolver.query(Domain,"NS")
     for data in ResultCNAME:
         try:
-            print(Succses," [+]Discovred NS Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred NS Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -147,7 +156,8 @@ def CheckAAAARec(Domain):
     ResultAAAA = dns.resolver.query(Domain,"AAAA",raise_on_no_answer=False)
     for data in ResultAAAA:
         try:
-            print(Succses," [+]Discovred AAAA Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred AAAA Record",data)
         except dns.resolver.queryr.NoAnswer:
             pass
         except KeyError:
@@ -156,7 +166,8 @@ def CheckTXTRec(Domain):
     ResultTXT = dns.resolver.query(Domain,"TXT",raise_on_no_answer=False)
     for data in ResultTXT:
         try:
-            print(Succses," [+]Discovred TXT Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred TXT Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -167,7 +178,8 @@ def CheckSRVRec(Domain):
     ResultSRV = dns.resolver.query(Domain,"SRV",raise_on_no_answer=False)
     for data in ResultSRV:
         try:
-            print(Succses," [+]Discovred SRV Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred SRV Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -178,7 +190,8 @@ def CheckCNAMERec(Domain):
     ResultCNAME= dns.resolver.query(Domain,"CNAME",raise_on_no_answer=False)
     for data in ResultCNAME:
         try:
-            print(Succses," [+]Discovred CNAME Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred CNAME Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -189,7 +202,8 @@ def CheckSOARec(Domain):
     ResultSOA= dns.resolver.query(Domain,"SOA",raise_on_no_answer=False)
     for data in ResultSOA:
         try:
-            print(Succses," [+]Discovred SOA Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred SOA Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -200,7 +214,8 @@ def CheckPTRRec(Domain):
     ResultPTR= dns.resolver.query(Domain,"PTR",raise_on_no_answer=False)
     for data in ResultPTR:
         try:
-            print(Succses," [+]Discovred PTR Record",data)
+            print("=" * 50)
+            print(Succses,"[+]Discovred PTR Record",data)
         except dns.resolver.query.NoAnswer:
             pass
         except:
@@ -239,11 +254,12 @@ if inputUser == "":
 
 
 if inputUser == "1":
-    print("Enter Your Domain")
+    print("Enter Your Host")
     Hostname = input()
     try:
         CheckStatus()
-        print("DNS Records")
+        print("=" * 50)
+        print(Succses," DNS Records :")
         CheckDNSRec()
         SubDomains()
     except KeyboardInterrupt:
