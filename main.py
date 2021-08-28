@@ -42,7 +42,7 @@ def CheckStatus():
                 s.close()
 
 def CheckStatusOfDomains():
-    FileName = input("Locate Your Domains Lists")
+    FileName = input("  Locate Your Domains Lists  ")
     with open(FileName,"r") as File:
         Lines = File.read()
         Lines = Lines.splitlines()
