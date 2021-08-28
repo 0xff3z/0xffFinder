@@ -21,4 +21,4 @@ python3 main.py
 
 
 # Note The tool Takes only Domain For Example: google.com without http or https\
-# Save Your Domains in Domains.txt
+
