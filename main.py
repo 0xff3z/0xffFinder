@@ -6,6 +6,12 @@ import dns
 import dns.resolver
 import dns.reversename
 
+dnsResovler = dns.resolver.Resolver()
+dnsResovler.timeout = 1
+dnsResovler.lifetime = 1
+
+
+
 
 
 import warnings
@@ -70,11 +76,7 @@ def CheckStatusOfDomains():
            CheckNSRec(line)
            CheckAAAARec(line)
            CheckARec(line)
-           CheckTXTRec(line)
-           CheckSRVRec(line)
            CheckCNAMERec(line)
-           CheckSOARec(line)
-           CheckPTRRec(line)
            for sub in subdomains:
                url = f"http://{sub}.{line}"
                try:
@@ -112,7 +114,7 @@ def SubDomains():
 
 
 def CheckMXRec(Domain):
-    ResultMx = dns.resolver.query(Domain,"MX",raise_on_no_answer=False)
+    ResultMx = dnsResovler.query(Domain,"MX",raise_on_no_answer=False)
     for data in ResultMx:
         try:
          print("="*50)
@@ -162,28 +164,7 @@ def CheckAAAARec(Domain):
             pass
         except KeyError:
             ''
-def CheckTXTRec(Domain):
-    ResultTXT = dns.resolver.query(Domain,"TXT",raise_on_no_answer=False)
-    for data in ResultTXT:
-        try:
-            print("=" * 50)
-            print(Succses,"[+]Discovred TXT Record",data)
-        except dns.resolver.query.NoAnswer:
-            pass
-        except:
-            pass
 
-
-def CheckSRVRec(Domain):
-    ResultSRV = dns.resolver.query(Domain,"SRV",raise_on_no_answer=False)
-    for data in ResultSRV:
-        try:
-            print("=" * 50)
-            print(Succses,"[+]Discovred SRV Record",data)
-        except dns.resolver.query.NoAnswer:
-            pass
-        except:
-            pass
 
 
 def CheckCNAMERec(Domain):
@@ -198,28 +179,7 @@ def CheckCNAMERec(Domain):
             pass
 
 
-def CheckSOARec(Domain):
-    ResultSOA= dns.resolver.query(Domain,"SOA",raise_on_no_answer=False)
-    for data in ResultSOA:
-        try:
-            print("=" * 50)
-            print(Succses,"[+]Discovred SOA Record",data)
-        except dns.resolver.query.NoAnswer:
-            pass
-        except:
-            pass
 
-
-def CheckPTRRec(Domain):
-    ResultPTR= dns.resolver.query(Domain,"PTR",raise_on_no_answer=False)
-    for data in ResultPTR:
-        try:
-            print("=" * 50)
-            print(Succses,"[+]Discovred PTR Record",data)
-        except dns.resolver.query.NoAnswer:
-            pass
-        except:
-            pass
 
 
 # def CheckZone(Domain):
@@ -238,11 +198,7 @@ def CheckDNSRec():
     CheckARec(Hostname)
     CheckNSRec(Hostname)
     CheckAAAARec(Hostname)
-    CheckTXTRec(Hostname)
-    CheckSRVRec(Hostname)
     CheckCNAMERec(Hostname)
-    CheckSOARec(Hostname)
-    CheckPTRRec(Hostname)
 
 inputUser = input('''
 1 - One Domain
