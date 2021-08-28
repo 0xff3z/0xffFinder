@@ -42,7 +42,7 @@ def CheckStatus():
                 s.close()
 
 def CheckStatusOfDomains():
-    FileName = input("  Locate Your Domains Lists  ")
+    FileName = input("Locate Your Domains Lists :  For Example: Domains.txt ")
     with open(FileName,"r") as File:
         Lines = File.read()
         Lines = Lines.splitlines()
@@ -246,6 +246,8 @@ if inputUser == "1":
         print("DNS Records")
         CheckDNSRec()
         SubDomains()
+    except KeyboardInterrupt:
+        print(Error, "Canceled By User")
 
     except socket.gaierror:
         print(Error, "Enter Valid Domain")
@@ -256,6 +258,10 @@ if inputUser == "1":
 
 
 if inputUser == "2":
-    CheckStatusOfDomains()
+    try:
+      CheckStatusOfDomains()
+    except KeyboardInterrupt :
+        print(Error,"Canceled By User")
+
 
 
