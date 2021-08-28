@@ -239,7 +239,7 @@ if inputUser == "":
 
 
 if inputUser == "1":
-    print("Enter Your Host")
+    print("Enter Your Domain")
     Hostname = input()
     try:
         CheckStatus()
