@@ -7,3 +7,5 @@ mail
 head
 administration
 administrative
+domains
+wsmc
