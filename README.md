@@ -6,6 +6,7 @@
 # 3 - Check SubDomains
 # 4 - Check DNS Records
 # 5- Support More Than Domain in List
+# 6- Check Validate of Domain Emails
 
 # Usage
 
