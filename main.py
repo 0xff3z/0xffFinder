@@ -1,11 +1,9 @@
 import socket
 import requests
 import sys
-import re
 import dns
 import dns.resolver
-import dns.reversename
-
+import json
 dnsResovler = dns.resolver.Resolver()
 dnsResovler.timeout = 1
 dnsResovler.lifetime = 1
@@ -13,13 +11,9 @@ dnsResovler.lifetime = 1
 
 
 
-
 import warnings
 warnings.filterwarnings(action='ignore')
 
-
-
-regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
 
@@ -72,6 +66,7 @@ def CheckStatusOfDomains():
                    print("=" * 50)
                    print(Error,f"Port {port} is Closed")
                    s.close()
+           CheckEmail(line)
            CheckMXRec(line)
            CheckNSRec(line)
            CheckAAAARec(line)
@@ -179,12 +174,30 @@ def CheckCNAMERec(Domain):
             pass
 
 
+def CheckEmail(Domain):
+    with open("emails.txt", "r") as File:
+        Lines = File.read()
+        Lines = Lines.splitlines()
+        for line in Lines:
+            params = {
+                'access_key': 'ed5679bd98e1e3b38f6a03e4bbba510d',
+                'email': f'{line}@{Domain}'
+            }
+            Res = requests.get(f"http://apilayer.net/api/check?",params)
+            Response = Res.json()
+            print("="*50)
+            print(Succses,"Email : ",Response["email"])
+            print(Succses,"FormatValid? :",Response["format_valid"])
+            print(Succses,"MX Found ?",Response["mx_found"])
+            print(Succses,"SMTP Check ? :",Response["smtp_check"])
+
 
 
 
 # def CheckZone(Domain):
 #     ResultZone = dns.zone.from_xfr(dns.query.xfr(Domain))
-#     for data in ResultZone:
+#     for data in ResultZone:1
+
 #         try:
 #             print(Succses," [+]Discovred AAAA Record",data)
 #         except DNSException as e:
@@ -194,6 +207,7 @@ def CheckCNAMERec(Domain):
 
 
 def CheckDNSRec():
+    CheckEmail(Hostname)
     CheckMXRec(Hostname)
     CheckARec(Hostname)
     CheckNSRec(Hostname)
