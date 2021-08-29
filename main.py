@@ -10,6 +10,7 @@ from pyfiglet import Figlet
 
 Error = '\033[91m'
 Succses = '\033[92m'
+white = '\037[95m'
 
 dnsResovler = dns.resolver.Resolver()
 dnsResovler.timeout = 1
@@ -21,7 +22,7 @@ dnsResovler.lifetime = 1
 
 custombannner = Figlet(font="roman",)
 banner = custombannner.renderText("0xff3zFinder")
-print(Error,banner)
+print(white,banner)
 
 
 
