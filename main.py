@@ -12,6 +12,9 @@ dnsResovler.lifetime = 1
 
 
 
+
+
+
 import warnings
 warnings.filterwarnings(action='ignore')
 
@@ -135,7 +138,7 @@ def CheckARec(Domain):
 
 
 def CheckNSRec(Domain):
-    ResultCNAME = dns.resolver.query(Domain,"NS")
+    ResultCNAME = dns.resolver.query(Domain,"NS",raise_on_no_answer=False)
     for data in ResultCNAME:
         try:
             print("=" * 50)
@@ -245,6 +248,5 @@ if inputUser == "2":
       CheckStatusOfDomains()
     except KeyboardInterrupt :
         print(Error,"Canceled By User")
-
 
 
