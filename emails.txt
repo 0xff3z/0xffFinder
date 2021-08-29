@@ -1,11 +1,2 @@
 ads
 support
-admin
-staff
-info
-mail
-head
-administration
-administrative
-domains
-wsmc

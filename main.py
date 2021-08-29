@@ -5,6 +5,12 @@ import sys
 import dns
 import dns.resolver
 import json
+import pyfiglet
+from pyfiglet import Figlet
+
+Error = '\033[91m'
+Succses = '\033[92m'
+
 dnsResovler = dns.resolver.Resolver()
 dnsResovler.timeout = 1
 dnsResovler.lifetime = 1
@@ -12,6 +18,10 @@ dnsResovler.lifetime = 1
 
 
 
+
+custombannner = Figlet(font="roman",)
+banner = custombannner.renderText("0xff3zFinder")
+print(Error,banner)
 
 
 
@@ -24,8 +34,7 @@ ApiList = random.choice(ApiList)
 
 
 
-Error = '\033[91m'
-Succses = '\033[92m'
+
 Ports = [80,443,20,21,22,23,24,25,3306]
 
 def CheckStatus():
@@ -56,7 +65,8 @@ def CheckStatusOfDomains():
            status = requests.get(f"{NewHost}")
            StatusCode = status.status_code
            print(Succses + f" Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
-           for port in Ports:
+           try:
+            for port in Ports:
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                socket.setdefaulttimeout(0.2)
                result = s.connect_ex((line, port))
@@ -64,59 +74,55 @@ def CheckStatusOfDomains():
                    Services = socket.getservbyport(port)
                    print("=" * 50)
                    print(Succses,f" Port {port} is Open", Services.format(port))
-               else:
+           except:
                    s.close()
-           CheckEmail(line)
+           # CheckEmail(line)
            CheckMXRec(line)
            CheckNSRec(line)
            CheckAAAARec(line)
            CheckARec(line)
            CheckCNAMERec(line)
-           for sub in subdomains:
-               url = f"http://{sub}.{line}"
-               try:
-                   requests.head(url,timeout=0.2)
-                   print("="*50)
-                   print(Succses, "[+]Discovred Doamins:", url)
-               except:
-                   ''
+           CheckDir(line)
+           SubDomains(line)
+
+
+
+
+
 
 
 
 file = open("subDomains.txt","r")
 contentInFile = file.read()
 subdomains = contentInFile.splitlines()
-def SubDomains():
+def SubDomains(Domain):
         for sub in subdomains:
-            url = f"http://{sub}.{Hostname}"
-            try:
-                requests.head(url,timeout=0.2)
-                print("=" * 50)
-                print( Succses,"[+]Discovred Doamins:", url)
-            except:
-                ''
+                try:
+                 url = "http://"+ sub+"."+Domain
+                 req =requests.get(url,)
+                 if req.status_code ==200:
+                  print("=" * 50)
+                  print( Succses,"[+]Discovred Doamins:", url)
+                except :
+                    pass
 
 
 
-# def CheckEmail(Domain):
-#     with open("emails.txt","r") as File:
-#         Content = File.read()
-#         Content = Content.splitlines()
-#         for mails in Content:
-#            isValid = validate_email(f'{mails}@{Domain}',smtp_timeout=10,  debug=False)
-#         print(isValid)
+
+
+
 
 
 
 def CheckMXRec(Domain):
     ResultMx = dnsResovler.query(Domain,"MX",raise_on_no_answer=False)
     for data in ResultMx:
-        try:
-         print("="*50)
-         print( Succses, "[+]Discovred MX Record",data)
-        except dns.resolver.query.NoAnswer:
+       try:
+           print("="*50)
+           print( Succses, "[+]Discovred MX Record",data)
+       except dns.resolver.query.NoAnswer:
             pass
-        except:
+       except:
             pass
 
 
@@ -124,12 +130,12 @@ def CheckMXRec(Domain):
 def CheckARec(Domain):
     ResultA = dns.resolver.query(Domain,"A",raise_on_no_answer=False)
     for data in ResultA:
-        try:
+         try:
             print("=" * 50)
             print(Succses,"[+]Discovred A Record",data)
-        except dns.resolver.query.NoAnswer:
+         except dns.resolver.query.NoAnswer:
             pass
-        except:
+         except:
             pass
 
 
@@ -140,12 +146,12 @@ def CheckARec(Domain):
 def CheckNSRec(Domain):
     ResultCNAME = dns.resolver.query(Domain,"NS",raise_on_no_answer=False)
     for data in ResultCNAME:
-        try:
+         try:
             print("=" * 50)
             print(Succses,"[+]Discovred NS Record",data)
-        except dns.resolver.query.NoAnswer:
+         except dns.resolver.query.NoAnswer:
             pass
-        except:
+         except:
             pass
 
 
@@ -153,25 +159,26 @@ def CheckAAAARec(Domain):
     ResultAAAA = dns.resolver.query(Domain,"AAAA",raise_on_no_answer=False)
     for data in ResultAAAA:
         try:
-            print("=" * 50)
-            print(Succses,"[+]Discovred AAAA Record",data)
+         print("=" * 50)
+         print(Succses,"[+]Discovred AAAA Record",data)
         except dns.resolver.queryr.NoAnswer:
             pass
         except KeyError:
-            ''
+            pass
 
 
 
 def CheckCNAMERec(Domain):
     ResultCNAME= dns.resolver.query(Domain,"CNAME",raise_on_no_answer=False)
     for data in ResultCNAME:
-        try:
+          try:
             print("=" * 50)
             print(Succses,"[+]Discovred CNAME Record",data)
-        except dns.resolver.query.NoAnswer:
-            pass
-        except:
-            pass
+          except dns.resolver.query.NoAnswer:
+           pass
+          except:
+           pass
+
 
 
 def CheckEmail(Domain):
@@ -194,16 +201,19 @@ def CheckEmail(Domain):
 
 
 
-# def CheckZone(Domain):
-#     ResultZone = dns.zone.from_xfr(dns.query.xfr(Domain))
-#     for data in ResultZone:1
+DirFilePath = open("DirList.txt","r")
+ContentDir = DirFilePath.read()
+Dir = ContentDir.splitlines()
 
-#         try:
-#             print(Succses," [+]Discovred AAAA Record",data)
-#         except DNSException as e:
-#             print(e)
-#
-
+def CheckDir(Domain):
+    try:
+        for res in Dir:
+                url = f"http://{Domain}/{res}"
+                req = requests.get(url)
+                if req.status_code == 200:
+                    print(Succses,"[+] Found :",url)
+    except:
+                print(Error,url)
 
 
 def CheckDNSRec():
@@ -231,7 +241,9 @@ if inputUser == "1":
         print("=" * 50)
         print(Succses," DNS Records :")
         CheckDNSRec()
-        SubDomains()
+        SubDomains(Hostname)
+        CheckDir(Hostname)
+
     except KeyboardInterrupt:
         print(Error, "Canceled By User")
 
