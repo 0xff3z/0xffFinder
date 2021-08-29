@@ -5,8 +5,9 @@
 # 2 - Check ip
 # 3 - Check SubDomains
 # 4 - Check DNS Records
-# 5- Support More Than Domain in List
-# 6- Check Validate of Domain Emails
+# 5 - Support More Than Domain in List
+# 6 - Check Validate of Domain Emails
+# 7 - Add Checking Directory
 
 # Usage
 
