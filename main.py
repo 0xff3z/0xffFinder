@@ -1,3 +1,4 @@
+import random
 import socket
 import requests
 import sys
@@ -14,9 +15,9 @@ dnsResovler.lifetime = 1
 import warnings
 warnings.filterwarnings(action='ignore')
 
+ApiList = ["8ce4daa49a6d58deeeb26834278a295a","ed5679bd98e1e3b38f6a03e4bbba510d","32f5add10d2edab7c76440de0fe3b069"]
 
-
-
+ApiList = random.choice(ApiList)
 
 
 
@@ -180,7 +181,7 @@ def CheckEmail(Domain):
         Lines = Lines.splitlines()
         for line in Lines:
             params = {
-                'access_key': 'ed5679bd98e1e3b38f6a03e4bbba510d',
+                'access_key': f'{ApiList}',
                 'email': f'{line}@{Domain}'
             }
             Res = requests.get(f"http://apilayer.net/api/check?",params)
