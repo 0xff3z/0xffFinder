@@ -77,7 +77,7 @@ def CheckStatusOfDomains():
                    print(Succses,f" Port {port} is Open", Services.format(port))
            except:
                    s.close()
-           # CheckEmail(line)
+           CheckEmail(line)
            CheckMXRec(line)
            CheckNSRec(line)
            CheckAAAARec(line)
