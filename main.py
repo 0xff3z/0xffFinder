@@ -40,8 +40,6 @@ def CheckStatus():
             print("=" * 50)
             print(f" Port {port} is Open",Services.format(port))
         else:
-                print("=" * 50)
-                print(Error, f"Port {port} is Closed")
                 s.close()
 
 def CheckStatusOfDomains():
@@ -64,8 +62,6 @@ def CheckStatusOfDomains():
                    print("=" * 50)
                    print(Succses,f" Port {port} is Open", Services.format(port))
                else:
-                   print("=" * 50)
-                   print(Error,f"Port {port} is Closed")
                    s.close()
            CheckEmail(line)
            CheckMXRec(line)
