@@ -7,6 +7,7 @@ import dns
 import dns.resolver
 import json
 import threading
+import builtwith
 
 
 
@@ -56,7 +57,17 @@ def CheckStatus():
     NewHost = (f"http://{Hostname}")
     status = requests.get(f"{NewHost}")
     StatusCode = status.status_code
+    serverreq = status.headers
+    res = serverreq.get("Server")
+    WebTech = builtwith.parse(f"{NewHost}")
     print(Succses + f" Domain :{Hostname} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
+    print("=" * 50)
+    print(" Web Technolgy : ")
+    print(Succses, "Server : ", res)
+    print(" Programming Language : ",WebTech.get("programming-languages"))
+    print(" Cms :",WebTech.get("cms"))
+    print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
+    print("=" * 50)
     GetLocatinoIp(ip)
     for port in Ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -84,8 +95,17 @@ def CheckStatusOfDomains():
             NewHost = (f"http://{line}")
             status = requests.get(f"{NewHost}")
             StatusCode = status.status_code
+            serverreq = status.headers
+            WebTech = builtwith.parse(f"{NewHost}")
+            res = serverreq.get("Server")
             print(Succses + f" Domain :{line} ", f"The ip is: {ip}: " f"Status: {StatusCode}..Ok ")
             GetLocatinoIp(ip)
+            print("=" * 50)
+            print(" Web Technolgy : ")
+            print(Succses, "Server : ", res)
+            print(" Programming Language : ", WebTech.get("programming-languages"))
+            print(" Cms :", WebTech.get("cms"))
+            print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
             try:
              for port in Ports:
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
