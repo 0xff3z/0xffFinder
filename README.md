@@ -7,7 +7,8 @@
 # 4 - Check DNS Records
 # 5 - Support More Than Domain in List
 # 6 - Check Validate of Domain Emails
-# 7 - Add Checking Directory
+# 7 - Checking Directory
+# 8 - Checking Disallow on robots.txt
 
 # Usage
 
