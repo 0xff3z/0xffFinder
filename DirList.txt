@@ -35,6 +35,7 @@ adminarea/login.html
 admin_area/login.php
 adminarea/login.php
 Admin.index.php
+phpMyAdmin
 admincontrol.html
 admincontrol/login.html
 admincontrol/login.php
