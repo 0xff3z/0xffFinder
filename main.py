@@ -45,7 +45,7 @@ print('''
 
 
 =======================
-Version: V1.5
+Version: V1.5.1
 Developer => Abdualziz Alosaimi - 0xff3z
 DeveloperAccounts =>
 Twitter: 0xff3z
@@ -157,7 +157,7 @@ def CheckStatusOfDomains():
 
 
 
-file = open("subDomains.txt", "r")
+file = open("PayLoads/subDomains.txt", "r")
 contentInFile = file.read()
 subdomains = contentInFile.splitlines()
 
@@ -184,6 +184,14 @@ def CheckMXRec(Domain):
             pass
         except dns.resolver.Timeout:
             pass
+        except dns.resolver.NoNameservers:
+            pass
+        except dns.resolver.NotAbsolute:
+            pass
+        except dns.resolver.NoMetaqueries:
+            pass
+        except dns.resolver.NoRootSOA:
+            pass
         except:
             pass
 
@@ -198,6 +206,14 @@ def CheckARec(Domain):
             pass
         except dns.resolver.Timeout:
             pass
+        except dns.resolver.NoNameservers:
+            pass
+        except dns.resolver.NotAbsolute:
+            pass
+        except dns.resolver.NoMetaqueries:
+            pass
+        except dns.resolver.NoRootSOA:
+            pass
         except:
             pass
 
@@ -208,10 +224,17 @@ def CheckNSRec(Domain):
         try:
             print("\033[01;37m=" * 50, "\033[01;32m")
             print(Succses, "[+]Discovred NS Record", data)
-            return ResultNsNAME
+        except dns.resolver.NoAnswer:
+            pass
         except dns.resolver.Timeout:
             pass
-        except dns.resolver.NoAnswer:
+        except dns.resolver.NoNameservers:
+            pass
+        except dns.resolver.NotAbsolute:
+            pass
+        except dns.resolver.NoMetaqueries:
+            pass
+        except dns.resolver.NoRootSOA:
             pass
         except:
             pass
@@ -232,9 +255,22 @@ def ZoneTransfer(Domain):
         print(Error,"Zone Transfer Failed")
     except dns.exception.FormError:
         print(Error,"Zone Transfer Failed")
+    except dns.zone.NoNS:
+        pass
+    except dns.zone.NoAnswer:
+        pass
+    except dns.zone.Timeout:
+        pass
+    except dns.zone.NoNameservers:
+        pass
+    except dns.zone.NotAbsolute:
+        pass
+    except dns.zone.NoMetaqueries:
+        pass
+    except dns.zone.NoRootSOA:
+        pass
     except:
         pass
-
 
 
 
@@ -252,7 +288,13 @@ def CheckAAAARec(Domain):
             pass
         except dns.resolver.Timeout:
             pass
-        except KeyError:
+        except dns.resolver.NoNameservers:
+            pass
+        except dns.resolver.NotAbsolute:
+            pass
+        except dns.resolver.NoMetaqueries:
+            pass
+        except dns.resolver.NoRootSOA:
             pass
         except:
             pass
@@ -268,12 +310,20 @@ def CheckCNAMERec(Domain):
             pass
         except dns.resolver.Timeout:
             pass
+        except dns.resolver.NoNameservers:
+            pass
+        except dns.resolver.NotAbsolute:
+            pass
+        except dns.resolver.NoMetaqueries:
+            pass
+        except dns.resolver.NoRootSOA:
+            pass
         except:
             pass
 
 
 def CheckEmail(Domain):
-    with open("emails.txt", "r") as File:
+    with open("PayLoads/emails.txt", "r") as File:
         Lines = File.read()
         Lines = Lines.splitlines()
         for line in Lines:
@@ -290,7 +340,7 @@ def CheckEmail(Domain):
             print(Succses, "SMTP Check ? :", Response["smtp_check"])
 
 
-DirFilePath = open("DirList.txt", "r")
+DirFilePath = open("PayLoads/DirList.txt", "r")
 ContentDir = DirFilePath.read()
 Dir = ContentDir.splitlines()
 
@@ -299,7 +349,7 @@ def CheckDir(Domain):
     try:
         for res in Dir:
             url = f"http://{Domain}/{res}"
-            req = requests.get(url)
+            req = requests.get(url,allow_redirects=False)
             if req.status_code == 200:
                 print(Succses, "[+] Found :", url)
     except:
@@ -327,6 +377,7 @@ def GetLocatinoIp(Ip):
     print(Succses,"ISP :",req["isp"])
     print(Succses,"Lat :",req["lat"])
     print(Succses,"Lon :",req["lon"])
+
 
 
 
