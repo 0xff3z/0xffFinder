@@ -228,8 +228,12 @@ def ZoneTransfer(Domain):
      zone = dns.zone.from_xfr(dns.query.xfr(Res[0].address, Domain))
      for n in sorted(zone.nodes.keys()):
         print(" Zones : ",zone[n].to_text(n))
-    except:
+    except dns.zone.BadZone:
         print(Error,"Zone Transfer Failed")
+    except dns.exception.FormError:
+        print(Error,"Zone Transfer Failed")
+    except:
+        pass
 
 
 
