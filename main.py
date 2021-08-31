@@ -5,9 +5,11 @@ import requests
 import sys
 import dns
 import dns.resolver
+import dns.zone
 import json
 import threading
 import builtwith
+import ssl
 
 
 
@@ -43,7 +45,7 @@ print('''
 
 
 =======================
-Version: V1.4
+Version: V1.5
 Developer => Abdualziz Alosaimi - 0xff3z
 DeveloperAccounts =>
 Twitter: 0xff3z
@@ -72,6 +74,9 @@ def CheckStatus():
     print(" Cms :",WebTech.get("cms"))
     print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
     print("=" * 50)
+    print(" TLS Version :")
+    CheckSSLAndTLS(Hostname)
+    print("=" * 50)
     GetLocatinoIp(ip)
     for port in Ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -86,6 +91,19 @@ def CheckStatus():
             pass
         except:
          s.close()
+
+
+
+def CheckSSLAndTLS(Host):
+    Host = Host
+    Res = ssl.SSLContext()
+    try:
+     with socket.create_connection((Host, 443)) as sock:
+        with Res.wrap_socket(sock,server_hostname=Host) as ssock:
+            print("",ssock.version())
+    except:
+        pass
+
 
 
 def CheckStatusOfDomains():
@@ -128,6 +146,7 @@ def CheckStatusOfDomains():
             CheckAAAARec(line)
             CheckARec(line)
             CheckCNAMERec(line)
+            ZoneTransfer(line)
             CheckEmail(line)
             print("  Disallow From robots.txt :")
             HiddinDir(line)
@@ -184,17 +203,38 @@ def CheckARec(Domain):
 
 
 def CheckNSRec(Domain):
-    ResultCNAME = dns.resolver.query(Domain, "NS", raise_on_no_answer=False)
-    for data in ResultCNAME:
+    ResultNsNAME = dns.resolver.query(Domain, "NS", raise_on_no_answer=False)
+    for data in ResultNsNAME:
         try:
             print("\033[01;37m=" * 50, "\033[01;32m")
             print(Succses, "[+]Discovred NS Record", data)
+            return ResultNsNAME
         except dns.resolver.Timeout:
             pass
         except dns.resolver.NoAnswer:
             pass
         except:
             pass
+
+
+
+
+def ZoneTransfer(Domain):
+    try:
+     print("=" * 50)
+     print(" Transferred Zone :")
+     SOA= dns.resolver.query(Domain,"SOA")
+     Res = dns.resolver.query(SOA[0].mname,"A")
+     zone = dns.zone.from_xfr(dns.query.xfr(Res[0].address, Domain))
+     for n in sorted(zone.nodes.keys()):
+        print(" Zones : ",zone[n].to_text(n))
+    except:
+        print(Error,"Zone Transfer Failed")
+
+
+
+
+
 
 
 
@@ -289,6 +329,8 @@ def GetLocatinoIp(Ip):
 
 
 
+
+
 def CheckDNSRec(Domain):
     CheckMXRec(Domain)
     CheckARec(Domain)
@@ -296,6 +338,10 @@ def CheckDNSRec(Domain):
     CheckAAAARec(Domain)
     CheckCNAMERec(Domain)
     CheckEmail(Domain)
+    ZoneTransfer(Domain)
+    print("=" * 50)
+
+
 
 
 
@@ -322,15 +368,17 @@ if inputUser == "1":
         t2 = threading.Thread(target=CheckDNSRec(Hostname))
         t2.start()
         t2.join()
-        print("  Disallow From robots.txt :")
+        print(Succses,"Disallow From robots.txt :")
         t3 = threading.Thread(target=HiddinDir(Hostname))
         t3.start()
         t3.join()
-        t4 = threading.Thread(target=SubDomains(Hostname))
+        print("=" * 50)
+        print(" Admin Directory :")
+        t4 = threading.Thread(target=CheckDir(Hostname))
         t4.start()
         t4.join()
         print("=" * 50)
-        t5 = threading.Thread(target=CheckDir(Hostname))
+        t5 = threading.Thread(target=SubDomains(Hostname))
         t5.start()
         t5.join()
 
