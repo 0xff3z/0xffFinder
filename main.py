@@ -10,6 +10,8 @@ import json
 import threading
 import builtwith
 import ssl
+import mechanize
+
 
 
 
@@ -53,7 +55,7 @@ Twitter: 0xff3z
 ''')
 
 
-Ports = [80, 443, 20, 21, 22, 23, 24, 25, 3306]
+
 
 
 
@@ -74,11 +76,14 @@ def CheckStatus():
     print(" Cms :",WebTech.get("cms"))
     print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
     print("=" * 50)
+    print("XSS Check :")
+    # XSSCheck(Hostname)
+    print("=" * 50)
     print(" TLS Version :")
     CheckSSLAndTLS(Hostname)
     print("=" * 50)
     GetLocatinoIp(ip)
-    for port in Ports:
+    for port in TopPorts:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket.setdefaulttimeout(2)
         result = s.connect_ex((Hostname, port))
@@ -103,6 +108,13 @@ def CheckSSLAndTLS(Host):
             print("",ssock.version())
     except:
         pass
+
+FileTopPorts = open("PayLoads/top100Ports.txt",'r')
+TopPorts = FileTopPorts.read().splitlines()
+
+
+for i in range(0,len(TopPorts)):
+    TopPorts[i] = int(TopPorts[i])
 
 
 
@@ -129,7 +141,7 @@ def CheckStatusOfDomains():
             print(" Cms :", WebTech.get("cms"))
             print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
             try:
-             for port in Ports:
+             for port in TopPorts:
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     socket.setdefaulttimeout(2)
                     result = s.connect_ex((line, port))
@@ -378,6 +390,14 @@ def GetLocatinoIp(Ip):
     print(Succses,"Lat :",req["lat"])
     print(Succses,"Lon :",req["lon"])
 
+XSSPayLoads = open("PayLoads/XSSPayloads.txt", "r")
+ContentXSS = XSSPayLoads.read()
+XSS = ContentXSS.splitlines()
+
+
+
+
+
 
 
 
@@ -392,7 +412,7 @@ def CheckDNSRec(Domain):
     CheckNSRec(Domain)
     CheckAAAARec(Domain)
     CheckCNAMERec(Domain)
-    CheckEmail(Domain)
+    # CheckEmail(Domain)
     ZoneTransfer(Domain)
     print("=" * 50)
 
@@ -446,6 +466,9 @@ if inputUser == "1":
         print("Enter Valid Domain")
     except OSError:
         sys.exit()
+
+
+
 
 
 
