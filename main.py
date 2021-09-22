@@ -76,7 +76,7 @@ def CheckStatus():
     print(" Cms :",WebTech.get("cms"))
     print(" JavaScript Framework :", WebTech.get("javascript-frameworks"))
     print("=" * 50)
-    print("XSS Check :")
+    #print("XSS Check :")
     # XSSCheck(Hostname)
     print("=" * 50)
     print(" TLS Version :")
@@ -412,7 +412,7 @@ def CheckDNSRec(Domain):
     CheckNSRec(Domain)
     CheckAAAARec(Domain)
     CheckCNAMERec(Domain)
-    # CheckEmail(Domain)
+    CheckEmail(Domain)
     ZoneTransfer(Domain)
     print("=" * 50)
 
