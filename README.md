@@ -1,8 +1,5 @@
 
-
-
-
-![0xffFinder](https://user-images.githubusercontent.com/25371465/147394845-4578e4d3-8801-47ba-be2b-8c472bf666fe.png)
+                              ![0xffFinder](https://user-images.githubusercontent.com/25371465/147394845-4578e4d3-8801-47ba-be2b-8c472bf666fe.png)
 
 
 # 0xffFinder
